@@ -1,22 +1,37 @@
 import React, {Component} from 'react';
 import {Button, TextInput, View, StyleSheet} from "react-native";
 
-const UserInput = (props) => {
-  return(
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.placeInput}
-        placeholder="An awesome place"
-        value={props.placeName}
-        onChangeText={props.handlePlaceNameInputChange}
-      />
-      <Button
-        title="Add"
-        style={styles.placeButton}
-        onPress={props.handleAddButtonPress}
-      />
-    </View>
-  )
+class UserInput extends Component {
+  state = {
+    input: ''
+  }
+
+  handlePlaceNameInputChange = (text) => {
+    this.setState({input: text})
+  }
+
+  render(){
+    return(
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.placeInput}
+          placeholder="An awesome place"
+          value={this.state.input}
+          onChangeText={(text) => this.handlePlaceNameInputChange(text)}
+        />
+        <Button
+          title="Add"
+          style={styles.placeButton}
+          onPress={() => {
+            if ( ! this.state.input ) return;
+            return this.props.handleAddButtonPress(this.state.input)
+          }
+          }
+        />
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({
